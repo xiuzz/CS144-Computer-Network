@@ -3,6 +3,7 @@
 
 #include "byte_stream.hh"
 
+#include <deque>
 #include <cstdint>
 #include <string>
 
@@ -11,9 +12,14 @@
 class StreamReassembler {
   private:
     // Your code here -- add private members as necessary.
-
+    bool _eof{};
+    size_t _unassembled_bytes{};  
+    size_t _first_unassembled_index{}; 
     ByteStream _output;  //!< The reassembled in-order byte stream
-    size_t _capacity;    //!< The maximum number of bytes
+    size_t _capacity;    //!< The maximum number of 
+      std::deque<char> _unassembled_substrings;
+    std::deque<bool> _bitmap;
+    void check_contiguous();
 
   public:
     //! \brief Construct a `StreamReassembler` that will store up to `capacity` bytes.
